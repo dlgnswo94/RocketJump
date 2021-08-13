@@ -1,4 +1,2 @@
-RocketJump/Library/ArtifactDB filter=lfs diff=lfs merge=lfs -text
 RocketJump/Library/PackageCache/com.unity.collab-proxy@1.7.1/Lib/Editor/PlasticSCM/unityplastic.dll filter=lfs diff=lfs merge=lfs -text
-RocketJump/Library/SourceAssetDB filter=lfs diff=lfs merge=lfs -text
 RocketJump/Library/PackageCache/com.unity.collab-proxy@1.7.1/Documentation~/images/ProjectView.gif filter=lfs diff=lfs merge=lfs -text
