@@ -60,4 +60,6 @@ crashlytics-build.properties
 
 # ETC
 RocketJump/Library/
+RocketJump/Logs/
+RocketJump/Temp/
 
