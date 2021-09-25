@@ -2,17 +2,17 @@ using UnityEngine;
 
 public abstract class UnitInfo : UnitBase
 {
-    protected Info info;
+    private UnitBase info;
 
-    protected override void Initialize(Info info = null)
+    public override void Initialize(UnitBase baseInfo = null)
     {
         if (info == null)
             return;
 
-        this.info = info; 
+        info = baseInfo; 
     }
 
-    protected override void Initialize(EType type = EType.None, bool isInvincible = false, bool hasHP = false, bool hasSkill = false, bool hasEnemy = false)
+    public override void Initialize(EUnitType type = EUnitType.None, bool isInvincible = false, bool hasHP = false, bool hasSkill = false, bool hasEnemy = false)
     {
         info.SetType(type);
         info.SetInvincible(isInvincible);
@@ -21,9 +21,9 @@ public abstract class UnitInfo : UnitBase
         info.SetEnemy(hasEnemy);
     }
 
-    protected Info GetInfo()
+    public UnitBase GetUnitBase()
     {
-        if (info == null || info == new Info())
+        if (info == null)
             return null;
 
         return info;

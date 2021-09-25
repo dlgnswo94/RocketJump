@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
 {
-    protected enum EType
+    public enum EUnitType
     {
         None,
         Friendly,
@@ -10,41 +10,38 @@ public abstract class UnitBase : MonoBehaviour
         NPC
     }
 
-    protected class Info 
+    private EUnitType type = EUnitType.None;
+    private bool isInvincible = false;
+    private bool hasHP = false;
+    private bool hasSkill = false;
+    private bool hasEnemy = false;
+
+    public void SetType(EUnitType type)
     {
-        public EType type { get; private set; } = EType.None;
-        public bool isInvincible { get; private set; } = false;
-        public bool hasHP { get; private set; } = false;
-        public bool hasSkill { get; private set; } = false;
-        public bool hasEnemy { get; private set; } = false;
+        this.type = type;
+    }
 
-        public void SetType(EType type)
-        {
-            this.type = type;
-        }
+    public void SetInvincible(bool isInvincible)
+    {
+        this.isInvincible = isInvincible;
+    }
 
-        public void SetInvincible(bool isInvincible)
-        {
-            this.isInvincible = isInvincible;
-        }
+    public void SetHP(bool hasHP)
+    {
+        this.hasHP = hasHP;
+    }
 
-        public void SetHP(bool hasHP)
-        {
-            this.hasHP = hasHP;
-        }
+    public void SetSkill(bool hasSkill)
+    {
+        this.hasSkill = hasSkill;
+    }
 
-        public void SetSkill(bool hasSkill)
-        {
-            this.hasSkill = hasSkill;
-        }
+    public void SetEnemy(bool hasEnemy)
+    {
+        this.hasEnemy = hasEnemy;
+    }
 
-        public void SetEnemy(bool hasEnemy)
-        {
-            this.hasEnemy = hasEnemy;
-        }
-    };
+    public abstract void Initialize(UnitBase baseInfo);
 
-    protected abstract void Initialize(Info info = null);
-
-    protected abstract void Initialize(EType type = EType.None, bool isInvincible = false, bool hasHP = false, bool hasSkill = false, bool hasEnemy = false);
+    public abstract void Initialize(EUnitType type = EUnitType.None, bool isInvincible = false, bool hasHP = false, bool hasSkill = false, bool hasEnemy = false);
 }
