@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Unit : UnitBase
+public abstract class UnitInfo : UnitBase
 {
-    private Info info;
+    protected Info info;
 
     protected override void Initialize(Info info = null)
     {
@@ -19,5 +19,13 @@ public class Unit : UnitBase
         info.SetHP(hasHP);
         info.SetSkill(hasSkill);
         info.SetEnemy(hasEnemy);
+    }
+
+    protected Info GetInfo()
+    {
+        if (info == null || info == new Info())
+            return null;
+
+        return info;
     }
 }

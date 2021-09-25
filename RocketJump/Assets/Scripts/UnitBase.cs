@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class UnitBase
+public abstract class UnitBase : MonoBehaviour
 {
     protected enum EType
     {
