@@ -1,4 +1,6 @@
-public abstract class UnitBaseInfo
+using UnityEngine;
+
+public abstract class UnitBaseInfo : MonoBehaviour
 {
     public enum EUnitType
     {
@@ -10,6 +12,6 @@ public abstract class UnitBaseInfo
     }
 
     public abstract EUnitType type { get; set; }
-    public abstract string name { get; set; }
+    public abstract string unitName { get; set; }
     public abstract float moveSpeed { get; set; }
 }

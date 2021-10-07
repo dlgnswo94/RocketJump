@@ -4,8 +4,6 @@ using UnityEngine;
 
 public interface IUnitCrowdControl
 {
-    public CrowdControlAffectedDuration crowdControlAffectedDuration { get; set; } 
-
     public enum EUnitCrowdControl
     {
         None = 0,
@@ -14,6 +12,8 @@ public interface IUnitCrowdControl
         Silence,
         Blind
     }
+
+    public CrowdControlAffectedDuration crowdControlAffectedDuration { get; set; } 
 
     public class CrowdControlAffectedDuration
     {

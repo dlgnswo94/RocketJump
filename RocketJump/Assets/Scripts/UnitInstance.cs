@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class UnitInstance : UnitBase
 {
     public override EUnitType type { get; set; }
-    public override string name { get; set; }
+    public override string unitName { get; set; }
     public override float moveSpeed { get; set; }
     public override IUnitHP.UnitHP hp { get; set; }
     public override Dictionary<IUnitSkill.ESkillNumber, IUnitSkill.SkillSet> skills { get; set; }
@@ -13,26 +13,69 @@ public class UnitInstance : UnitBase
     public UnitInstance(EUnitType type = EUnitType.None, string name = "Please give a name.", float moveSpeed = 0f, int hp = 0)
     {
         this.type = type;
-        this.name = name;
+        this.unitName = name;
         this.moveSpeed = moveSpeed;
         this.hp = new IUnitHP.UnitHP(hp);
         skills = new Dictionary<IUnitSkill.ESkillNumber, IUnitSkill.SkillSet>();
         crowdControlAffectedDuration = new IUnitCrowdControl.CrowdControlAffectedDuration();
     }
 
-    public void AddSkill(string name, int damage, float coolTime)
+    public void Damaged(int damage)
     {
-        if (skills == null)
+        if (hp == null)
         {
-            Debug.LogError("스킬을 지정할 공간이 없습니다! 초기화가 제대로 이루어졌는지 확인!");
+            Debug.LogError("Check HP initialize");
+            return;
+        }
+        
+        int currentHP = hp.GetHP();
+
+        if (currentHP > 0)
+        {
+            hp.SetHP(currentHP - damage);
+        }
+
+        CheckHP();
+    }
+
+    public void CheckHP()
+    {
+        if (hp == null)
+        {
+            Debug.LogError("Check HP initialize.");
             return;
         }
 
-        IUnitSkill.SkillSet newSkill = new IUnitSkill.SkillSet(name, damage, coolTime);
+        if(hp.GetHP() <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        if (gameObject == null)
+        {
+            Debug.LogError("Can't find gameobject.");
+            return;
+        }
+
+        Destroy(gameObject);
+    }
+    
+    public void AddSkill(IUnitCrowdControl.EUnitCrowdControl ccType, string name, int damage, float coolTime)
+    {
+        if (skills == null)
+        {
+            Debug.LogError("There's no space to designate skills! Check if the initialization is done properly!");
+            return;
+        }
+
+        IUnitSkill.SkillSet newSkill = new IUnitSkill.SkillSet(ccType, name, damage, coolTime);
 
         if (newSkill == null)
         {
-            Debug.LogError("새 스킬을 등록할 수 없습니다!");
+            Debug.LogError("You can't register a new skill!");
             return;
         }
 
@@ -40,7 +83,7 @@ public class UnitInstance : UnitBase
 
         if (skillCount == IUnitSkill.ESkillNumber.MAX)
         {
-            Debug.LogWarning("스킬을 더 이상 등록할 수 없습니다! 스킬은 최대 16개까지 등록할 수 있습니다.");
+            Debug.LogWarning("You can no longer register your skills! Up to 16 skills can be registered.");
             return;
         }
 
@@ -86,7 +129,7 @@ public class UnitInstance : UnitBase
             return skills[eSkillNum];
         }
 
-        Debug.LogWarning("일치하는 스킬 이름이 없습니다!");
+        Debug.LogWarning("There's no skill name that matches!");
         return null;
     }
 
@@ -97,13 +140,13 @@ public class UnitInstance : UnitBase
 
         if (!skills.ContainsKey(skillNumber))
         {
-            Debug.LogWarning("일치하는 스킬 넘버가 없습니다!");
+            Debug.LogWarning("There's no skill number that matches!");
             return null;
         }
 
         if (skills[skillNumber] == null || skills[skillNumber] == new IUnitSkill.SkillSet())
         {
-            Debug.LogWarning("스킬이 잘못 지정되었습니다.");
+            Debug.LogWarning("The skill is specified incorrectly.");
             return null;
         }
 

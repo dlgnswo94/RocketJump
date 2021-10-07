@@ -31,13 +31,15 @@ public interface IUnitSkill
     public class SkillSet
     {
         // 나중에 애니메이션 관련 변수 & CC기 정보도 추가해야됨.
+        private IUnitCrowdControl.EUnitCrowdControl ccType;
         private string name;
         private int damage;
         private float coolTime;
         // private Animator . . .
 
-        public SkillSet(string name = "", int damage = 0, float coolTime = 0f)
+        public SkillSet(IUnitCrowdControl.EUnitCrowdControl ccType = IUnitCrowdControl.EUnitCrowdControl.None, string name = "", int damage = 0, float coolTime = 0f)
         {
+            this.ccType = ccType;
             this.name = name;
             this.damage = damage;
             this.coolTime = coolTime;
