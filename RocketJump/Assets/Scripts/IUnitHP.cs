@@ -27,37 +27,25 @@ public interface IUnitHP
 
         public void Damaged(int damage, GameObject unitObj)
         {
-            if (this == null)
-            {
-                Debug.LogError("Check HP initialize.");
+            if (ErrorHelper.IsNull(this, "Check HP initialize."))
                 return;
-            }
 
             if (hp > 0)
                 hp = hp - damage;
 
-            if (unitObj == null)
-            {
-                Debug.LogError("unitObj is NULL! Check the unitObj.");
+            if (ErrorHelper.IsNull(unitObj, "unitObj is NULL! Check the unitObj."))
                 return;
-            }
 
             CheckHP(unitObj);
         }
 
         public void CheckHP(GameObject unitObj)
         {
-            if (this == null)
-            {
-                Debug.LogError("Check HP initialize.");
+            if (ErrorHelper.IsNull(this, "Check HP initialize."))
                 return;
-            }
 
-            if (unitObj == null)
-            {
-                Debug.LogError("unitObj is NULL! Check the unitObj.");
+            if (ErrorHelper.IsNull(unitObj, "unitObj is NULL! Check the unitObj."))
                 return;
-            }
 
             if (hp <= 0)
                 Die(unitObj);
@@ -65,11 +53,8 @@ public interface IUnitHP
 
         public void Die(GameObject unitObj)
         {
-            if (unitObj == null)
-            {
-                Debug.LogError("Can't find gameobject.");
+            if (ErrorHelper.IsNull(unitObj, "Can't find gameobject."))
                 return;
-            }
 
             Object.Destroy(unitObj);
         }

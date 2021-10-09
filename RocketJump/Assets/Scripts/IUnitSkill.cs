@@ -40,9 +40,9 @@ public interface IUnitSkill
 
         public void ClearSkillList()
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogWarning("Check the skillList initialize.");
+                LogHelper.ErrorMessage("Check the skillList initialize.");
                 return;
             }
 
@@ -51,25 +51,22 @@ public interface IUnitSkill
 
         public void AddSkill(IUnitCrowdControl.EUnitCrowdControl ccType, string name, int damage, float coolTime)
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogError("There's no space to designate skills! Check if the initialization is done properly!");
+                LogHelper.ErrorMessage("There's no space to designate skills! Check if the initialization is done properly!");
                 return;
             }
 
             SkillSet newSkill = new SkillSet(ccType, name, damage, coolTime);
 
-            if (newSkill == null)
-            {
-                Debug.LogError("You can't register a new skill!");
+            if (ErrorHelper.IsNull(newSkill, "You can't register a new skill!"))
                 return;
-            }
 
             ESkillNumber skillNum = (ESkillNumber)skillList.Count + 1;
 
             if (skillNum >= ESkillNumber.MAX)
             {
-                Debug.LogWarning("You can no longer register your skills! Up to 16 skills can be registered.");
+                LogHelper.WarningMessage("You can no longer register your skills! Up to 16 skills can be registered.");
                 return;
             }
 
@@ -78,17 +75,14 @@ public interface IUnitSkill
 
         public void AddSkill(SkillSet newSkill)
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogError("There's no space to designate skills! Check if the initialization is done properly!");
+                LogHelper.ErrorMessage("There's no space to designate skills! Check if the initialization is done properly!");
                 return;
             }
 
-            if (newSkill == null)
-            {
-                Debug.LogError("You can't register a new skill!");
+            if (ErrorHelper.IsNull(newSkill, "You can't register a new skill!"))
                 return;
-            }
 
             ESkillNumber skillNum = (ESkillNumber)skillList.Count + 1;
 
@@ -122,9 +116,9 @@ public interface IUnitSkill
 
         public bool IsContainsKey(ESkillNumber number)
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogWarning("Check the skillList initialize.");
+                LogHelper.ErrorMessage("Check the skillList initialize.");
                 return false;
             }
 
@@ -133,9 +127,9 @@ public interface IUnitSkill
 
         public bool IsContainsValue(SkillSet skillSet)
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogWarning("Check the skillList initialize.");
+                LogHelper.ErrorMessage("Check the skillList initialize.");
                 return false;
             }
 
@@ -144,21 +138,21 @@ public interface IUnitSkill
 
         public SkillSet FindSkillSetWithSkillNumber(ESkillNumber skillNumber)
         {
-            if (this == null || skillList == null)
+            if (ErrorHelper.IsNull(this) || ErrorHelper.IsNull(skillList))
             {
-                Debug.LogWarning("Check the skillList initialize.");
+                LogHelper.ErrorMessage("Check the skillList initialize.");
                 return null;
             }
 
             if (!skillList.ContainsKey(skillNumber))
             {
-                Debug.LogWarning("There's no skill number that matches!");
+                LogHelper.WarningMessage("There's no skill number that matches!");
                 return null;
             }
 
-            if (skillList[skillNumber] == null || skillList[skillNumber] == new SkillSet())
+            if (ErrorHelper.IsNull(skillList[skillNumber]) || skillList[skillNumber] == new SkillSet())
             {
-                Debug.LogWarning("The skill is specified incorrectly.");
+                LogHelper.WarningMessage("The skill is specified incorrectly.");
                 return null;
             }
 

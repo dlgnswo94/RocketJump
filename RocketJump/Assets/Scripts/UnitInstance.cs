@@ -17,7 +17,4 @@ public class UnitInstance : UnitBase
         this.hp = new IUnitHP.UnitHP(hp);
         skillList = new IUnitSkill.Skills();
     }
-
-    #region About CC system
-    #endregion Abuot CC system
 }

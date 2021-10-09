@@ -8,8 +8,7 @@ public class GameInit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DateTime time = new DateTime(2021, 2, 3);
-        DefaultValueManagement<DateTime>.GetDefaultValue();
+
     }
 
     // Update is called once per frame
@@ -17,5 +16,4 @@ public class GameInit : MonoBehaviour
     {
         
     }
-
 }

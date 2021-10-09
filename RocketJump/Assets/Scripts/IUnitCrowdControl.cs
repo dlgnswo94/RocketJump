@@ -26,20 +26,14 @@ public interface IUnitCrowdControl
         
         public void EnqueueCrowdControlAffect(CrowdControlAffect cca)
         {
-            if (crowdControlAffects == null)
-            {
-                Debug.LogError("There is no space to store CCA.");
+            if (ErrorHelper.IsNull(crowdControlAffects, "There is no space to store CCA."))
                 return;
-            }
 
-            if (maxQueueLength <= length)
-            {
-                string message = string.Format("The maximum queue size is {0}.", maxQueueLength);
-                Debug.LogWarning(message);
+            if (ErrorHelper.IsMaximum(length, maxQueueLength, "The maximum queue size is {0}.", maxQueueLength))
                 return;
-            }
 
             crowdControlAffects.Enqueue(cca);
+            length++;
         }
     }
 
