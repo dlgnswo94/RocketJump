@@ -8,6 +8,5 @@ public abstract class UnitBase : UnitBaseInfo, IUnitHP, IUnitSkill, IUnitCrowdCo
     public abstract override string unitName { get; set; }
     public abstract override float moveSpeed { get; set; }
     public abstract IUnitHP.UnitHP hp { get; set; }
-    public abstract Dictionary<IUnitSkill.ESkillNumber, IUnitSkill.SkillSet> skills { get; set; }
-    public abstract IUnitCrowdControl.CrowdControlAffectedDuration crowdControlAffectedDuration { get; set; }
+    public abstract IUnitSkill.Skills skillList { get; set; }
 }

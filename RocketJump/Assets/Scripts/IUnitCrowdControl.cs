@@ -13,63 +13,33 @@ public interface IUnitCrowdControl
         Blind
     }
 
-    public CrowdControlAffectedDuration crowdControlAffectedDuration { get; set; } 
-
-    public class CrowdControlAffectedDuration
+    public class CrowdControlAffected
     {
-        private float slowDuration;
-        private float stunDuration;
-        private float silenceDuration;
-        private float blindDuration;
+        private Queue<CrowdControlAffect> crowdControlAffects;
+        private const int maxQueueLength = 16;
+        private int length = 0;
 
-        public CrowdControlAffectedDuration()
+        public CrowdControlAffected()
         {
-            slowDuration = 0f;
-            stunDuration = 0f;
-            silenceDuration = 0f;
-            blindDuration = 0f;
+            crowdControlAffects = new Queue<CrowdControlAffect>();
         }
-
-        public void SetCrowdControlAffectedDuration(EUnitCrowdControl crowdControlType, float duration, float amount, int damage)
+        
+        public void EnqueueCrowdControlAffect(CrowdControlAffect cca)
         {
-            switch(crowdControlType)
+            if (crowdControlAffects == null)
             {
-                case EUnitCrowdControl.Slow:
-                    slowDuration += duration;
-                    break;
-
-                case EUnitCrowdControl.Stun:
-                    stunDuration += duration;
-                    break;
-
-                case EUnitCrowdControl.Silence:
-                    silenceDuration += duration;
-                    break;
-
-                case EUnitCrowdControl.Blind:
-                    blindDuration += duration;
-                    break;
+                Debug.LogError("There is no space to store CCA.");
+                return;
             }
-        }
 
-        public float GetSlowDuration()
-        {
-            return slowDuration;
-        }
+            if (maxQueueLength <= length)
+            {
+                string message = string.Format("The maximum queue size is {0}.", maxQueueLength);
+                Debug.LogWarning(message);
+                return;
+            }
 
-        public float GetStunDuration()
-        {
-            return stunDuration;
-        }
-
-        public float GetSilenceDuration()
-        {
-            return silenceDuration;
-        }
-
-        public float GetBlindDuration()
-        {
-            return blindDuration;
+            crowdControlAffects.Enqueue(cca);
         }
     }
 
