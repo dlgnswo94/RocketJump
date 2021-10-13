@@ -4,24 +4,50 @@ using UnityEngine;
 
 public interface IUnitCrowdControl
 {
+    public CrowdControlAffected crowdControlAffected { get; set; }
+
     public enum EUnitCrowdControl
     {
         None = 0,
         Slow,
         Stun,
         Silence,
-        Blind
+        Blind,
+        MAX
+    }
+
+    public enum EUnitCrodwControlTimerMode
+    {
+        None = 0,
+        Plus,
+        Minus,
+        Multiply,
+        MAX
     }
 
     public class CrowdControlAffected
     {
         private Queue<CrowdControlAffect> crowdControlAffects;
+        private SortedList<EUnitCrowdControl, float> crowdControlAffectDuration;
         private const int maxQueueLength = 16;
         private int length = 0;
 
+        private delegate float CountdownDuration (CrowdControlAffect crowdControlAffect, 
+            float interp = 0f, EUnitCrodwControlTimerMode timerMode = EUnitCrodwControlTimerMode.Plus);
+        
         public CrowdControlAffected()
         {
             crowdControlAffects = new Queue<CrowdControlAffect>();
+            crowdControlAffectDuration = new SortedList<EUnitCrowdControl, float>();
+
+            for (EUnitCrowdControl i = EUnitCrowdControl.None + 1; i < EUnitCrowdControl.MAX; i++)
+            {
+                if (ErrorHelper.IsNull(crowdControlAffectDuration, "Check if the crawdControlAffectDeration is initialized well."))
+                    return;
+
+                crowdControlAffectDuration.Add(i, 0f);
+            }
+            CountdownDuration countdownDuration = CountDuration;
         }
         
         public void EnqueueCrowdControlAffect(CrowdControlAffect cca)
@@ -34,6 +60,38 @@ public interface IUnitCrowdControl
 
             crowdControlAffects.Enqueue(cca);
             length++;
+        }
+
+        public CrowdControlAffect DequeueCrowdControlAffect()
+        {
+            if (ErrorHelper.IsNull(crowdControlAffects, "The queue has not been properly initialized."))
+                return null;
+
+            if (crowdControlAffects.Peek() == null)
+            {
+                LogHelper.WarningMessage("There are no more CCs left in the queue.");
+                return null;
+            }
+
+            return crowdControlAffects.Dequeue();
+        }
+
+        public void ApplyCrowdControlAffectDuration()
+        {
+            CrowdControlAffect newCrowdControlAffect = DequeueCrowdControlAffect();
+
+            if (ErrorHelper.IsNull(newCrowdControlAffect, "There is no new CrowdControlAffect."))
+                return;
+
+            if (ErrorHelper.IsNull(crowdControlAffectDuration, "Check if the CrowdControlAffectDuration is initialized well."))
+                return;
+
+            crowdControlAffectDuration[newCrowdControlAffect.GetCrowdControl()] = newCrowdControlAffect.GetDuration();
+        }
+
+        public float CountDuration(CrowdControlAffect crowdControlAffect, float interp = 0f, EUnitCrodwControlTimerMode timerMode = EUnitCrodwControlTimerMode.Plus)
+        {
+            return 0f;
         }
     }
 

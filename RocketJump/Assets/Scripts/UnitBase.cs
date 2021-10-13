@@ -9,4 +9,5 @@ public abstract class UnitBase : UnitBaseInfo, IUnitHP, IUnitSkill, IUnitCrowdCo
     public abstract override float moveSpeed { get; set; }
     public abstract IUnitHP.UnitHP hp { get; set; }
     public abstract IUnitSkill.Skills skillList { get; set; }
+    public IUnitCrowdControl.CrowdControlAffected crowdControlAffected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }
