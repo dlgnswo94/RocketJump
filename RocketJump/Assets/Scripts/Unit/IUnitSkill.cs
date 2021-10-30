@@ -36,6 +36,7 @@ public interface IUnitSkill
         public Skills()
         {
             skillList = new SortedList<ESkillNumber, SkillSet>();
+            DefaultValueChecker<SortedList<ESkillNumber, SkillSet>>.IsDefaultValue(skillList, "This skillList is null", "This skillList is not default value");
         }
 
         public void ClearSkillList()
@@ -64,11 +65,9 @@ public interface IUnitSkill
 
             ESkillNumber skillNum = (ESkillNumber)skillList.Count + 1;
 
-            if (skillNum >= ESkillNumber.MAX)
-            {
-                LogHelper.WarningMessage("You can no longer register your skills! Up to 16 skills can be registered.");
+            if (StandardChecker.IsCorrect(true, skillNum >= ESkillNumber.MAX, StandardChecker.EErrorLevel.Warning, 
+                "You can no longer register your skills! Up to 16 skills can be registered."))
                 return;
-            }
 
             skillList.Add(skillNum, newSkill);
         }
@@ -86,11 +85,9 @@ public interface IUnitSkill
 
             ESkillNumber skillNum = (ESkillNumber)skillList.Count + 1;
 
-            if (skillNum >= ESkillNumber.MAX)
-            {
-                Debug.LogWarning("You can no longer register your skills! Up to 16 skills can be registered.");
+            if (StandardChecker.IsCorrect(true, skillNum >= ESkillNumber.MAX, StandardChecker.EErrorLevel.Warning,
+                "You can no longer register your skills! Up to 16 skills can be registered."))
                 return;
-            }
 
             skillList.Add(skillNum, newSkill);
         }
@@ -99,17 +96,14 @@ public interface IUnitSkill
         {
             if(!IsContainsKey(skillNumber))
             {
-                Debug.LogWarning("There is no skill that matches the skill number.");
+                LogHelper.WarningMessage("There is no skill that matches the skill number.");
                 return;
             }
 
             SkillSet newSkill = new SkillSet(ccType, name, damage, coolTime);
 
-            if (newSkill == null)
-            {
-                Debug.LogError("You can't register a new skill!");
+            if (ErrorHelper.IsNull(newSkill, "You can't register a new skill!"))
                 return;
-            }
 
             skillList[skillNumber] = newSkill; 
         }

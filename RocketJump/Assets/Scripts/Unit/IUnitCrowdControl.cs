@@ -16,7 +16,7 @@ public interface IUnitCrowdControl
         MAX
     }
 
-    public enum EUnitCrodwControlTimerMode
+    public enum EUnitCrowdControlTimerMode
     {
         None = 0,
         Plus,
@@ -37,13 +37,16 @@ public interface IUnitCrowdControl
             crowdControlAffects = new Queue<CrowdControlAffect>();
             crowdControlAffectDuration = new SortedList<EUnitCrowdControl, float>();
 
-            for (EUnitCrowdControl i = EUnitCrowdControl.None + 1; i < EUnitCrowdControl.MAX; i++)
-            {
-                if (ErrorHelper.IsNull(crowdControlAffectDuration, "Check if the crawdControlAffectDeration is initialized well."))
-                    return;
+            if (!DefaultValueChecker<Queue<CrowdControlAffect>>.IsDefaultValue(crowdControlAffects,
+                "Check if the crowdControlAffects is initialized well.", "This crowdControlAffects is not default vaule"))
+                return;
 
+            if (!DefaultValueChecker<SortedList<EUnitCrowdControl, float>>.IsDefaultValue(crowdControlAffectDuration,
+                "Check if the crawdControlAffectDeration is initialized well.", "This crowdControlAffectDuration is not default vaule"))
+                return;
+
+            for (EUnitCrowdControl i = EUnitCrowdControl.None + 1; i < EUnitCrowdControl.MAX; i++)
                 crowdControlAffectDuration.Add(i, 0f);
-            }
         }
         
         public void EnqueueCrowdControlAffect(CrowdControlAffect cca)
@@ -63,11 +66,8 @@ public interface IUnitCrowdControl
             if (ErrorHelper.IsNull(crowdControlAffects, "The queue has not been properly initialized."))
                 return null;
 
-            if (crowdControlAffects.Peek() == null)
-            {
-                LogHelper.WarningMessage("There are no more CCs left in the queue.");
+            if (ErrorHelper.IsNull(crowdControlAffects.Peek(), "There are no more CCs left in the queue."))
                 return null;
-            }
 
             return crowdControlAffects.Dequeue();
         }
