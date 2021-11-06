@@ -9,6 +9,7 @@ public class UnitInstance : UnitBase
     public override IUnitHP.UnitHP hp { get; set; }
     public override IUnitSkill.Skills skillList { get; set; }
     public override IUnitCrowdControl.CrowdControlAffected crowdControlAffected { get; set; }
+    public override CoroutineBase coroutineBase { get; set; }
 
     public UnitInstance(EUnitType type = EUnitType.None, string name = "Please give a name.", float moveSpeed = 0f, int hp = 1)
     {
@@ -18,5 +19,6 @@ public class UnitInstance : UnitBase
         this.hp = new IUnitHP.UnitHP(hp);
         skillList = new IUnitSkill.Skills();
         crowdControlAffected = new IUnitCrowdControl.CrowdControlAffected();
+        coroutineBase = new CoroutineBase();
     }
 }

@@ -10,4 +10,5 @@ public abstract class UnitBase : UnitBaseInfo, IUnitHP, IUnitSkill, IUnitCrowdCo
     public abstract IUnitHP.UnitHP hp { get; set; }
     public abstract IUnitSkill.Skills skillList { get; set; }
     public abstract IUnitCrowdControl.CrowdControlAffected crowdControlAffected { get; set; }
+    public abstract CoroutineBase coroutineBase { get; set; }
 }
